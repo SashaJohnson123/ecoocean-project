@@ -100,6 +100,22 @@ class PledgeDetail(APIView):
         serializer = PledgeSerializer(pledges)
         return Response(serializer.data)
 
+    def put(self, request, pk):
+        pledges = self.get_object(pk)
+        data = request.data
+        serializer = PledgeSerializer(
+            instance=pledges,
+            data=data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
     def delete(self, request, pk):
         pledge = self.get_object(pk)
         pledge.delete()
