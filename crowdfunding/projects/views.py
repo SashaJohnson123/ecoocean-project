@@ -1,5 +1,5 @@
 from django.http import Http404
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Project, Pledge
@@ -62,8 +62,15 @@ class ProjectDetail(APIView):
 
     def delete(self, request, pk):
         project = self.get_object(pk)
-        project.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+        if project.owner == request.user:
+            project.delete()
+            return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
+        else:
+            return Response(
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
 
 class PledgeList(APIView):
@@ -117,6 +124,19 @@ class PledgeDetail(APIView):
             )
 
     def delete(self, request, pk):
-        pledge = self.get_object(pk)
-        pledge.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+        project = self.get_object(pk)
+        if project.owner == request.user:
+            project.delete()
+            return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
+        else:
+            return Response(
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+
+# class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+#     # class CategoryList(generics.ListAPIView):
+#     queryset = Category.objects.all()
+#     serializer_class = CategorySerializer
