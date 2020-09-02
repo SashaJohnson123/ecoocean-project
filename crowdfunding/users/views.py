@@ -58,8 +58,13 @@ class CustomUserDetail(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
 
 
-# class Register(APIView):
-#     def post(self, request):
-#         username = request.get.data('name:'),
-#         email = request.get.data('email:'),
-#         last_name = request.get.data('last name:'),
+class Register(APIView):
+    def post(self, request):
+        user = User.objects.create(
+            username=request.data.get(‘username’),
+            email=request.data.get(‘email’),
+            full_name=request.data.get(‘fullname’),
+        )
+        user.set_password(str(request.data.get(‘password’)))
+        user.save()
+        return Response({“status”: “success”, “response”: “User Successfully Created”}, status=status.HTTP_201_CREATED)
