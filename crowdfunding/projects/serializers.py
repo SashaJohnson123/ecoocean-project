@@ -42,11 +42,6 @@ class ProjectSerializer(serializers.Serializer):
     # owner = serializers.CharField(max_length=200)
     owner = serializers.ReadOnlyField(source='owner.id')
     categories = CategorySerializer(many=True)
-    proj_cat = serializers.SlugRelatedField(
-        queryset=Category.objects.all(),
-        read_only=False,
-        slug_field='name'
-    )
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
