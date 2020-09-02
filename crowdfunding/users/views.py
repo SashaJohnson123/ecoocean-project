@@ -58,12 +58,8 @@ class CustomUserDetail(APIView):
         return Response(status.HTTP_204_NO_CONTENT)
 
 
-class Register(APIView):
-    def post(self, request):
-        username = request.get.data('name:'),
-        email = request.get.data('email:'),
-        last_name = request.get.data('last name:'),
-
-    user.set_password
-    return Response(serializer.errors)
-    return Response(status.HTTP_204_NO_CONTENT)
+# class Register(APIView):
+#     def post(self, request):
+#         username = request.get.data('name:'),
+#         email = request.get.data('email:'),
+#         last_name = request.get.data('last name:'),
