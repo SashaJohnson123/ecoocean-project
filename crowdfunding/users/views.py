@@ -61,10 +61,10 @@ class CustomUserDetail(APIView):
 class Register(APIView):
     def post(self, request):
         user = User.objects.create(
-            username=request.data.get(‘username’),
-            email=request.data.get(‘email’),
-            full_name=request.data.get(‘fullname’),
+            username=request.data.get('user'),
+            email=request.data.get('email'),
+            full_name=request.data.get('fullname'),
         )
-        user.set_password(str(request.data.get(‘password’)))
+        user.set_password(str(request.data.get('password')))
         user.save()
-        return Response({“status”: “success”, “response”: “User Successfully Created”}, status=status.HTTP_201_CREATED)
+        return Response({"status": "success", "response": "User Successfully Created"}, status=status.HTTP_201_CREATED)
