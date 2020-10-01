@@ -22,7 +22,7 @@ class Project(models.Model):
         on_delete=models.CASCADE,
         related_name='owner_projects'
     )
-    categories = models.ManyToManyField(Category, related_name="categories")
+    categories = models.ManyToManyField(Category, related_name="projects")
 
 
 class Pledge(models.Model):
