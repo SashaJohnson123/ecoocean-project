@@ -59,6 +59,7 @@ class ProjectDetail(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
+        return Response(serializer.data)
 
     def delete(self, request, pk):
         project = self.get_object(pk)
@@ -140,4 +141,3 @@ class PledgeDetail(APIView):
 #     # class CategoryList(generics.ListAPIView):
 #     queryset = Category.objects.all()
 #     serializer_class = CategorySerializer
-

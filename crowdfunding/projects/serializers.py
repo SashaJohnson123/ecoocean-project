@@ -44,6 +44,15 @@ class ProjectSerializer(serializers.Serializer):
     categories = CategorySerializer(many=True)
 
     def create(self, validated_data):
+        # grab categories from your data, so it's not passed into your Project constructor
+        categories = validated_data.pop('categories')
+        # create your project (with no categories initially)
+        project = Project.objects.create(**validated_data)
+        # for each of the categories you've passed in
+        for cat in categories:
+            # create a new category, or use an existing one if it already exists
+            # pass in the project so it creates a relationship between category <--> project
+            Category.objects.get_or_create(project=project, **cat)
         return Project.objects.create(**validated_data)
 
 
