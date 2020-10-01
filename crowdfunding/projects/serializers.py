@@ -53,7 +53,7 @@ class ProjectSerializer(serializers.Serializer):
             # create a new category, or use an existing one if it already exists
             # pass in the project so it creates a relationship between category <--> project
             Category.objects.get_or_create(project=project, **cat)
-        return Project.objects.create(**validated_data)
+        return project
 
 
 class ProjectDetailSerializer(ProjectSerializer):
