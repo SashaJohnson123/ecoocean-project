@@ -6,7 +6,7 @@ class PledgeSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     amount = serializers.IntegerField()
     anonymous = serializers.BooleanField()
-    supporter_id = serializers.IntegerField()
+    supporter_id = serializers.ReadOnlyField(source='supporter.username')
     project_id = serializers.IntegerField()
 
     def create(self, validated_data):
