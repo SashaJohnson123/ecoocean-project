@@ -54,6 +54,7 @@ class ProjectDetail(APIView):
         )
         if serializer.is_valid():
             serializer.save()
+            return Response(serializer.data)
         else:
             return Response(
                 serializer.errors,
@@ -117,7 +118,8 @@ class PledgeDetail(APIView):
             partial=True
         )
         if serializer.is_valid():
-            serializer.save(supporter=request.user)
+            serializer.save()
+            return Response(serializer.data)
         else:
             return Response(
                 serializer.errors,
