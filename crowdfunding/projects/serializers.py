@@ -42,12 +42,6 @@ class ProjectSerializer(serializers.Serializer):
     # owner = serializers.CharField(max_length=200)
     owner = serializers.ReadOnlyField(source='owner.id')
     categories = CategorySerializer(many=True)
-    can_edit = serializers.SerializerMethodField()
-
-    def get_can_edit(self, project):
-        user = self.context['request'].user
-        print(user)
-        return user.is_superuser or user is project.owner
 
     def create(self, validated_data):
         # grab categories from your data, so it's not passed into your Project constructor
@@ -66,6 +60,13 @@ class ProjectSerializer(serializers.Serializer):
 
 class ProjectDetailSerializer(ProjectSerializer):
     pledge = PledgeSerializer(many=True, read_only=True, source='pledges')
+
+    can_edit = serializers.SerializerMethodField()
+
+    def get_can_edit(self, project):
+        user = self.context['request'].user
+        print(user)
+        return user.is_superuser or user is project.owner
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
