@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Project, Pledge, Category
-from rest_framework.fields import CurrentUserDefault
 
 
 class PledgeSerializer(serializers.Serializer):
@@ -46,7 +45,7 @@ class ProjectSerializer(serializers.Serializer):
     can_edit = serializers.SerializerMethodField()
 
     def get_can_edit(self, project):
-        user = CurrentUserDefault()
+        user = self.context['request'].user
         print(user)
         return user.is_admin or user is project.owner
 

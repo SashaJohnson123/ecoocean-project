@@ -41,17 +41,19 @@ class ProjectDetail(APIView):
 
     def get(self, request, pk):
         project = self.get_object(pk)
-        serializer = ProjectDetailSerializer(project)
+        serializer = ProjectDetailSerializer(
+            project, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
         project = self.get_object(pk)
-        data = request.data
         serializer = ProjectDetailSerializer(
+            project, context={'request': request}
             instance=project,
             data=data,
-            partial=True
-        )
+            partial=True,
+            context={'request': request
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -63,7 +65,7 @@ class ProjectDetail(APIView):
         return Response(serializer.data)
 
     def delete(self, request, pk):
-        project = self.get_object(pk)
+        project=self.get_object(pk)
         if project.owner == request.user:
             project.delete()
             return Response(
@@ -78,12 +80,12 @@ class ProjectDetail(APIView):
 class PledgeList(APIView):
 
     def get(self, request):
-        pledges = Pledge.objects.all()
-        serializer = PledgeSerializer(pledges, many=True)
+        pledges=Pledge.objects.all()
+        serializer=PledgeSerializer(pledges, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = PledgeSerializer(data=request.data)
+        serializer=PledgeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(supporter=request.user)
             return Response(
@@ -105,14 +107,14 @@ class PledgeDetail(APIView):
             raise Http404
 
     def get(self, request, pk):
-        pledges = self.get_object(pk)
-        serializer = PledgeSerializer(pledges)
+        pledges=self.get_object(pk)
+        serializer=PledgeSerializer(pledges)
         return Response(serializer.data)
 
     def put(self, request, pk):
-        pledges = self.get_object(pk)
-        data = request.data
-        serializer = PledgeSerializer(
+        pledges=self.get_object(pk)
+        data=request.data
+        serializer=PledgeSerializer(
             instance=pledges,
             data=data,
             partial=True
@@ -127,7 +129,7 @@ class PledgeDetail(APIView):
             )
 
     def delete(self, request, pk):
-        project = self.get_object(pk)
+        project=self.get_object(pk)
         if project.owner == request.user:
             project.delete()
             return Response(
