@@ -47,7 +47,7 @@ class ProjectSerializer(serializers.Serializer):
     def get_can_edit(self, project):
         user = self.context['request'].user
         print(user)
-        return user.is_admin or user is project.owner
+        return user.is_superuser or user is project.owner
 
     def create(self, validated_data):
         # grab categories from your data, so it's not passed into your Project constructor
