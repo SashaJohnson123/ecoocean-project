@@ -48,7 +48,7 @@ class ProjectDetail(APIView):
     def put(self, request, pk):
         project = self.get_object(pk)
         serializer = ProjectDetailSerializer(
-            project, context={'request': request}
+            project, context={'request': request},
             instance=project,
             data=data,
             partial=True,
