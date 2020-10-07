@@ -42,6 +42,12 @@ class ProjectSerializer(serializers.Serializer):
     # owner = serializers.CharField(max_length=200)
     owner = serializers.ReadOnlyField(source='owner.id')
     categories = CategorySerializer(many=True)
+    can_edit = serializers.SerializerMethodField()
+
+    def get_can_edit(self, project):
+        user = self.request.user
+        print(user)
+        return user.is_admin or user is project.owner
 
     def create(self, validated_data):
         # grab categories from your data, so it's not passed into your Project constructor
